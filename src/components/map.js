@@ -1,79 +1,90 @@
-import React, {Component} from 'react'
-import {  Circle,
-    CircleMarker,
+import React from 'react'
+import {
     Map,
     Polygon,
-    Polyline,
-    Popup,
-    Rectangle,
-    TileLayer,} from 'react-leaflet'
+    TileLayer,
+} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 
 
-class MapCommponent extends React.Component {
+class MapComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            color: generateColors(15, 15),
+        };
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(number) {
+        let colors = this.state.color;
+        colors[number] = 'blue'
+        this.setState(state => ({
+            color: colors
+        }));
+
+        console.log('Color id: ' + number + ' updated!')
+    }
+
     render() {
-        const center = [51.505, -0.09]
+        const center = [53.737553, 22.840776]
+        const polygon = generateGrid(15, 15);
 
-        const polyline = [
-            [51.505, -0.09],
-            [51.51, -0.1],
-            [51.51, -0.12],
-        ]
-
-        const multiPolyline = [
-            [
-                [51.5, -0.1],
-                [51.5, -0.12],
-                [51.52, -0.12],
-            ],
-            [
-                [51.5, -0.05],
-                [51.5, -0.06],
-                [51.52, -0.06],
-            ],
-        ]
-
-        const polygon = [
-            [51.515, -0.09],
-            [51.52, -0.1],
-            [51.52, -0.12],
-        ]
-
-        const multiPolygon = [
-            [
-                [51.51, -0.12],
-                [51.51, -0.13],
-                [51.53, -0.13],
-            ],
-            [
-                [51.51, -0.05],
-                [51.51, -0.07],
-                [51.53, -0.07],
-            ],
-        ]
-
-        const rectangle = [
-            [51.49, -0.08],
-            [51.5, -0.06],
-        ]
         return (
-            <Map center={center} zoom={13} style={{width: '100%', height: '100vh'}}>
+            <Map center={center} zoom={15} style={{width: '100%', height: '100vh'}} dragging={false} zoomControl={false}
+                 scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Circle center={center} fillColor="blue" radius={200} />
-                <CircleMarker center={[51.51, -0.12]} color="red" radius={20}>
-                    <Popup>Popup in CircleMarker</Popup>
-                </CircleMarker>
-                <Polyline color="lime" positions={polyline} />
-                <Polyline color="lime" positions={multiPolyline} />
-                <Polygon color="purple" positions={polygon} />
-                <Polygon color="purple" positions={multiPolygon} />
-                <Rectangle bounds={rectangle} color="black" />
+                {polygon.map((item, number) => (
+                    <>
+                        <Polygon color={this.state.color[number]} positions={item} onClick={(e) => this.handleClick(number)}/>
+                    </>
+                ))
+                }
+
             </Map>
         )
     }
 }
 
-export default MapCommponent;
+function generateGrid(x, y) {
+    const polygon = [];
+    let polygonTemp = [];
+
+    const offset = 0.0013;
+    const coords = {
+        x: 53.727586,
+        y: 22.832943
+    }
+
+    for (let n = 0; n < x; n++) {
+        for (let m = 0; m < y; m++) {
+            polygonTemp.push([coords.x + n * offset, coords.y + m * offset])
+            polygonTemp.push([coords.x + n * offset, coords.y + offset + m * offset])
+            polygonTemp.push([coords.x + offset + n * offset, coords.y + offset + m * offset])
+            polygonTemp.push([coords.x + offset + n * offset, coords.y + m * offset])
+            polygon.push(polygonTemp)
+            polygonTemp = [];
+        }
+
+    }
+
+    return polygon;
+}
+
+function generateColors(x, y) {
+    const polygon = [];
+    const color = ['red', 'orange', 'green']
+
+
+    for (let n = 0; n < x * y; n++) {
+        polygon.push(color[Math.floor(Math.random() * 3)])
+    }
+
+    return polygon;
+}
+
+export default MapComponent;
