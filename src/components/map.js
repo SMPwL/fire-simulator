@@ -11,7 +11,7 @@ class MapComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            color: generateColors(15, 15),
+            color: generateColors(16, 15),
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -54,18 +54,19 @@ function generateGrid(x, y) {
     const polygon = [];
     let polygonTemp = [];
 
-    const offset = 0.0013;
+    const offset = 0.0012;
     const coords = {
         x: 53.727586,
         y: 22.832943
     }
 
-    for (let n = 0; n < x; n++) {
-        for (let m = 0; m < y; m++) {
-            polygonTemp.push([coords.x + n * offset, coords.y + m * offset])
-            polygonTemp.push([coords.x + n * offset, coords.y + offset + m * offset])
-            polygonTemp.push([coords.x + offset + n * offset, coords.y + offset + m * offset])
-            polygonTemp.push([coords.x + offset + n * offset, coords.y + m * offset])
+
+    for (let n = 0; n < x-1; n++) {
+        for (let m = 0; m < y+2; m++) {
+            polygonTemp.push([coords.x + (0.0002 * m) - (0.00025) + n * offset, coords.y + (0.00025) - 0.00035 * n + m * offset]) // lewy dolny róg
+            polygonTemp.push([coords.x + (0.0002 * m) + n * offset, coords.y + offset + (0.00025) - 0.00035 * n + m * offset]) // prawy dolny róg
+            polygonTemp.push([coords.x + (0.0002 * m) + offset + n * offset, coords.y - 0.00035 * n + offset + m * offset]) // prawy gorny róg
+            polygonTemp.push([coords.x + (0.0002 * m) - (0.00025) + offset + n * offset, coords.y - 0.00035 * n  + m * offset]) // lewy gorny róg
             polygon.push(polygonTemp)
             polygonTemp = [];
         }
@@ -77,7 +78,7 @@ function generateGrid(x, y) {
 
 function generateColors(x, y) {
     const polygon = [];
-    const color = ['red', 'orange', 'green']
+    const color = ['red', 'blue', 'green']
 
 
     for (let n = 0; n < x * y; n++) {
