@@ -8,22 +8,22 @@ import 'leaflet/dist/leaflet.css';
 
 import {mapAsset} from "../assets/map";
 import Legend from './legend'
+import polygonIds from "../assets/polygonIds";
 
 class MapComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            color: generateColors(16, 15),
+            sensors: generateColors(16, 13),
         };
-
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick(number) {
-        let colors = this.state.color;
+        let colors = this.state.sensors;
         colors[number] = 'blue'
-        this.setState(state => ({
-            color: colors,
+        this.setState(() => ({
+            sensors: colors,
         }));
 
         console.log('Color id: ' + number + ' updated!')
@@ -43,8 +43,30 @@ class MapComponent extends React.Component {
     }
 
     componentWillMount() {
+        const SSE = new EventSource(`http://localhost:7000/SSE`);
+
+        SSE.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            this.updateSensors(data);
+        };
+
         this.setState({
-            polygons: mapAsset()
+            polygons: mapAsset(),
+            polygonIds,
+            SSE
+        });
+    }
+
+    updateSensors = (data) => {
+        let { sensors } = this.state;
+
+        data.map(({id, co2level}) => {
+            sensors[id] = getColor(co2level * 10)
+        })
+
+        this.setState({
+            ...this.state,
+            sensors
         })
     }
 
@@ -62,11 +84,10 @@ class MapComponent extends React.Component {
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    {console.log(this.state.polygons)}
                     {this.state.polygons.map((item, number) => (
                         <>
-                            <Polygon color={this.state.color[number]} positions={item}
-                                     onClick={(e) => this.handleClick(number)}/>
+                            <Polygon color={this.state.sensors[this.state.polygonIds[number]]} positions={item}
+                                     onClick={() => this.handleClick(this.state.polygonIds[number])}/>
                         </>
                     ))
                     }
@@ -80,8 +101,11 @@ class MapComponent extends React.Component {
 function generateColors(x, y) {
     const polygon = [];
 
-    for (let n = 0; n < x * y; n++) {
-        polygon.push(getColor([Math.floor(Math.random() * 1001)]))
+    for (let n = 0; n < x; n++) {
+        for(let m = 0; m < y; m++) {
+            //polygon.push(getColor([Math.floor(Math.random() * 1001)]))
+            polygon.push('#FFFFFF');
+        }
     }
 
     return polygon;
