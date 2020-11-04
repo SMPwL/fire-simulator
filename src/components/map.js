@@ -9,6 +9,7 @@ import 'leaflet/dist/leaflet.css';
 import {mapAsset} from "../assets/map";
 import Legend from './legend'
 import polygonIds from "../assets/polygonIds";
+import { withRouter } from 'react-router-dom';
 
 class MapComponent extends React.Component {
     constructor(props) {
@@ -21,12 +22,27 @@ class MapComponent extends React.Component {
 
     handleClick(number) {
         let colors = this.state.sensors;
-        colors[number] = 'blue'
-        this.setState(() => ({
-            sensors: colors,
-        }));
 
-        console.log('Color id: ' + number + ' updated!')
+        if(colors[200] !== '#FFFFFF') {
+            fetch(`https://cors-anywhere.herokuapp.com/https://smpwl-server.herokuapp.com/setfire`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: number
+                })
+            });
+
+            alert(`Sektor ${number} został podpalony`);
+
+            colors[number] = 'red'
+            this.setState(() => ({
+                sensors: colors,
+            }));
+
+            console.log('Color id: ' + number + ' updated!')
+        }
     }
 
     componentDidMount() {
@@ -43,7 +59,7 @@ class MapComponent extends React.Component {
     }
 
     componentWillMount() {
-        const SSE = new EventSource(`http://localhost:7000/SSE`);
+        const SSE = new EventSource(`https://cors-anywhere.herokuapp.com/https://smpwl-server.herokuapp.com/SSE`);
 
         SSE.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -123,4 +139,4 @@ function getColor(d) {
 }
 
 
-export default MapComponent;
+export default withRouter(MapComponent);
