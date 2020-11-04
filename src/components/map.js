@@ -24,7 +24,7 @@ class MapComponent extends React.Component {
         let colors = this.state.sensors;
 
         if(colors[200] !== '#FFFFFF') {
-            fetch(`https://cors-anywhere.herokuapp.com/https://smpwl-server.herokuapp.com/setfire`, {
+            fetch(`https://smpwl-server.herokuapp.com/setfire`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ class MapComponent extends React.Component {
     }
 
     componentWillMount() {
-        const SSE = new EventSource(`https://cors-anywhere.herokuapp.com/https://smpwl-server.herokuapp.com/SSE`);
+        const SSE = new EventSource(`https://smpwl-server.herokuapp.com/SSE`);
 
         SSE.onmessage = (event) => {
             const data = JSON.parse(event.data);
