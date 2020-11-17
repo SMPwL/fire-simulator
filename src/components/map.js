@@ -3,7 +3,8 @@ import {
     Map,
     Polygon,
     TileLayer,
-} from 'react-leaflet'
+} from 'react-leaflet';
+import styled from "styled-components";
 import 'leaflet/dist/leaflet.css';
 
 import {mapAsset} from "../assets/map";
@@ -89,12 +90,13 @@ class MapComponent extends React.Component {
     render() {
         const center = [53.737153, 22.840776]
         return (
-            <>
+            <Wrapper>
                 <Legend/>
-                <Map center={center} zoom={15} style={{width: '100%', height: '100vh'}}
+                <Map center={center} zoom={15} style={{width: '100%', height: '87vh'}}
                      dragging={false}
                      zoomControl={false} doubleClickZoom={false}
                      scrollWheelZoom={false}
+                     attributionControl={false}
                 >
                     <TileLayer
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -108,7 +110,7 @@ class MapComponent extends React.Component {
                     ))
                     }
                 </Map>
-            </>
+            </Wrapper>
         )
     }
 }
@@ -138,5 +140,8 @@ function getColor(d) {
                                 '#FFEDA0';
 }
 
+const Wrapper = styled.div`
+  
+`;
 
 export default withRouter(MapComponent);

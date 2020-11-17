@@ -1,11 +1,15 @@
 import React from "react";
 import styled from 'styled-components'
 
+const Wrapper = styled.div`
+  position: relative;
+`;
+
 const LegendBox = styled.div`
   position: absolute;
-  right: 25px;
-  bottom: 25px;
   z-index: 1000;
+  top: 10px;
+  right: 10px;
   width: 150px;
   border-radius: 5px;
   border: 1px solid rgba(0,0,0,0.2);
@@ -73,18 +77,21 @@ class Legend extends React.Component {
         ]
 
         return (
-            <LegendBox>
-                <h5 className={'text-center mt-1'}>Legenda</h5>
-                {legend.map((item) => (
-                        <LegendItem>
-                            <ColorLegendItem color={item.color}/>
-                            <span>{item.name}</span>
-                        </LegendItem>
+            <Wrapper>
+                <LegendBox>
+                    <h5 className={'text-center mt-1'}>Legenda</h5>
+                    {legend.map((item) => (
+                            <LegendItem>
+                                <ColorLegendItem color={item.color}/>
+                                <span>{item.name}</span>
+                            </LegendItem>
+                        )
                     )
-                )
-                }
+                    }
 
-            </LegendBox>
+                </LegendBox>
+            </Wrapper>
+
         );
     }
 }
