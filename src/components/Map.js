@@ -6,22 +6,19 @@ import {
 } from 'react-leaflet';
 import styled from "styled-components";
 import 'leaflet/dist/leaflet.css';
-
 import {mapAsset} from "../assets/map";
-import Legend from './legend'
+import Legend from './Legend'
 import polygonIds from "../assets/polygonIds";
-import { withRouter } from 'react-router-dom';
 
 class MapComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            sensors: generateColors(16, 13),
-        };
-        this.handleClick = this.handleClick.bind(this);
-    }
 
-    handleClick(number) {
+    state = {
+        sensors: generateColors(16, 13),
+        polygons: [],
+        polygonIds: []
+    };
+
+    handleClick = (number) => {
         let colors = this.state.sensors;
 
         if(colors[200] !== '#FFFFFF') {
@@ -47,19 +44,6 @@ class MapComponent extends React.Component {
     }
 
     componentDidMount() {
-        // let number = 0;
-        // const interval = setInterval(() => {
-        //     let colors = this.state.color;
-        //     colors[number] = 'blue'
-        //     this.setState(state => ({
-        //         color: colors
-        //     }));
-        //     number++
-        // }, 100);
-        // return () => clearInterval(interval);
-    }
-
-    componentWillMount() {
         const SSE = new EventSource(`https://smpwl-server.herokuapp.com/SSE`);
 
         SSE.onmessage = (event) => {
@@ -74,6 +58,13 @@ class MapComponent extends React.Component {
         });
     }
 
+    componentWillUnmount() {
+        const { SSE } = this.state;
+        if(SSE && SSE.readyState === 1){
+            SSE.close();
+        }
+    }
+
     updateSensors = (data) => {
         let { sensors } = this.state;
 
@@ -85,6 +76,7 @@ class MapComponent extends React.Component {
             ...this.state,
             sensors
         })
+        console.log(this.state)
     }
 
     render() {
@@ -103,12 +95,9 @@ class MapComponent extends React.Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     {this.state.polygons.map((item, number) => (
-                        <>
-                            <Polygon color={this.state.sensors[this.state.polygonIds[number]]} positions={item}
-                                     onClick={() => this.handleClick(this.state.polygonIds[number])}/>
-                        </>
-                    ))
-                    }
+                        <Polygon key={number} color={this.state.sensors[this.state.polygonIds[number]]} positions={item}
+                                 onClick={() => this.handleClick(this.state.polygonIds[number])}/>
+                    ))}
                 </Map>
             </Wrapper>
         )
@@ -144,4 +133,4 @@ const Wrapper = styled.div`
   
 `;
 
-export default withRouter(MapComponent);
+export default MapComponent;

@@ -1,17 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import {routes} from "../routes/Routes";
 
 class Nav extends React.Component {
     render() {
         return (
             <Wrapper>
                 <List>
-                    <Item>Cockpit</Item>
-                    <Item>Mapa</Item>
-                    <Item>Logi</Item>
+                    <Item>
+                        <Link href={routes.dashboard}>Kokpit</Link>
+                    </Item>
+                    <Item>
+                        <Link href={routes.map}>Mapa</Link>
+                    </Item>
+                    <Item>
+                        <Link href={routes.logs}>Komunikaty</Link>
+                    </Item>
                 </List>
                 <List>
-                    <Item>Zalogowany jako Leśniczny</Item>
+                    <Item>SMPwK</Item>
                 </List>
             </Wrapper>
         )
@@ -37,6 +44,17 @@ const Item = styled.li`
   margin-right: 1.5rem;
   &:last-child {
     margin-right: 0;
+  }
+`;
+
+const Link = styled.a`
+  color: #eee;
+  text-decoration: none;
+  padding: 14px 16px;
+  &:hover {
+    color: #eee;
+    background-color: #111;
+    text-decoration: none;
   }
 `;
 

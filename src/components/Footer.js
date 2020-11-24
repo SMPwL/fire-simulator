@@ -14,7 +14,7 @@ class Footer extends React.Component {
 const Wrapper = styled.div`
   color: #eee;
   background: #24292e;
-  height: 6rem;
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;

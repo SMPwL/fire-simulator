@@ -80,8 +80,8 @@ class Legend extends React.Component {
             <Wrapper>
                 <LegendBox>
                     <h5 className={'text-center mt-1'}>Legenda</h5>
-                    {legend.map((item) => (
-                            <LegendItem>
+                    {legend.map((item, index) => (
+                            <LegendItem key={index}>
                                 <ColorLegendItem color={item.color}/>
                                 <span>{item.name}</span>
                             </LegendItem>

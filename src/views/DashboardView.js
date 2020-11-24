@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import MapComponent from "../components/map";
+import Map from "../components/Map";
 import General from "../components/Dashboard/General";
 import Alerts from "../components/Dashboard/Alerts";
 import LastActivity from "../components/Dashboard/LastActivity";
@@ -10,7 +10,7 @@ class DashboardView extends React.Component {
         return (
             <Wrapper>
                 <Row1>
-                    <MapComponent />
+                    <Map />
                 </Row1>
                 <Row3>
                     <General />
