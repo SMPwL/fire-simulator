@@ -12,7 +12,7 @@ class General extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=krosz%C3%B3wka&appid=234c8686150141d829255637d1ac0d46&units=metric`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=krosz%C3%B3wka&appid=234c8686150141d829255637d1ac0d46&units=metric`)
             .then(res => res.json())
             .then(data => {
                 this.setState({
