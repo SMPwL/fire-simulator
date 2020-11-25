@@ -28,4 +28,10 @@ const Heading = styled.h1`
   margin-bottom: 2rem;
 `;
 
+const Container = styled.div`
+  height: 20vh;
+  overflow: auto;
+  overflow-x: hidden;
+`;
+
 export default Alerts;

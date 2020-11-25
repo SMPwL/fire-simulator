@@ -38,19 +38,18 @@ class LastActivity extends React.Component {
     render() {
         return (
             <Wrapper>
-                <div>
-                    <Heading>Aktywność agentów</Heading>
-                    <Container>
-                        {this.state.agentCommunication.map(({message, date, agentId, type}, number) => (
-                            <div key={number}>
-                                <AgentHeading>{type} {agentId}</AgentHeading>
-                                <p>{message}</p>
-                                <DateParagraph>{date.substr(0, 19).replace(/T/g, ' ')}</DateParagraph>
-                                <hr/>
-                            </div>
-                        ))}
-                    </Container>
-                </div>
+                <Heading>Aktywność agentów</Heading>
+                <Container>
+                    {this.state.agentCommunication.length === 0 && <p>Brak aktywności!</p> }
+                    {this.state.agentCommunication.map(({message, date, agentId, type}, number) => (
+                        <div key={number}>
+                            <AgentHeading>{type} {agentId}</AgentHeading>
+                            <p>{message}</p>
+                            <DateParagraph>{date.substr(0, 19).replace(/T/g, ' ')}</DateParagraph>
+                            <hr/>
+                        </div>
+                    ))}
+                </Container>
             </Wrapper>
         )
     }
@@ -61,6 +60,9 @@ const Wrapper = styled.div`
   background: #d0d0d04a;
   text-align: center;
   padding: 1rem;
+  display: grid;
+  justify-items: center;
+  align-items: center;
 `;
 
 const Heading = styled.h1`
