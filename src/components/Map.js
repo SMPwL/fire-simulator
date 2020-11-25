@@ -13,6 +13,7 @@ import polygonIds from "../assets/polygonIds";
 class MapComponent extends React.Component {
 
     state = {
+        SSE: null,
         sensors: generateColors(16, 13),
         polygons: [],
         polygonIds: []
@@ -48,7 +49,7 @@ class MapComponent extends React.Component {
 
         SSE.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            this.updateSensors(data);
+            this.updateSensors(data.detectorsData);
         };
 
         this.setState({
@@ -76,7 +77,6 @@ class MapComponent extends React.Component {
             ...this.state,
             sensors
         })
-        console.log(this.state)
     }
 
     render() {

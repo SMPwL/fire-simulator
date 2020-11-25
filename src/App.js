@@ -8,7 +8,6 @@ import GlobalStyle from "./theme/Theme";
 import Footer from "./components/Footer";
 import styled from "styled-components";
 import MapView from "./views/MapView";
-import LogsView from "./views/LogsView";
 
 class App extends React.Component {
     render() {
@@ -20,7 +19,6 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path={routes.dashboard} component={DashboardView} />
                         <Route exact path={routes.map} component={MapView} />
-                        <Route exact path={routes.logs} component={LogsView} />
                     </Switch>
                 </Wrapper>
                 <Footer />

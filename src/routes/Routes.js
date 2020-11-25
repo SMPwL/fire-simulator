@@ -1,5 +1,4 @@
 export const routes = {
     dashboard: "/",
-    map: "/map",
-    logs: "/logs"
+    map: "/map"
 }

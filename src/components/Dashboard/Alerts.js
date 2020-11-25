@@ -7,8 +7,7 @@ class Alerts extends React.Component {
             <Wrapper>
                 <div>
                     <Heading>Komunikaty</Heading>
-                    <p>Wspaniale!</p>
-                    <p>Nie ma teraz żadnego pożaru.</p>
+                    <p>Brak komunikatów!</p>
                 </div>
             </Wrapper>
         )

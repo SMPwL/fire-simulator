@@ -13,9 +13,6 @@ class Nav extends React.Component {
                     <Item>
                         <Link href={routes.map}>Mapa</Link>
                     </Item>
-                    <Item>
-                        <Link href={routes.logs}>Komunikaty</Link>
-                    </Item>
                 </List>
                 <List>
                     <Item>SMPwK</Item>
