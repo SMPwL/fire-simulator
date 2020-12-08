@@ -3,60 +3,7 @@ import styled from "styled-components";
 
 class General extends React.Component {
 
-    state = {
-        name: '',
-        temperature: '',
-        humidity: '',
-        windDirection: '',
-        windSpeed: '',
-        SSE: null,
-        isLoaded: false
-    }
-
-    componentDidMount() {
-
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=krosz%C3%B3wka&appid=234c8686150141d829255637d1ac0d46&units=metric`)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    name: data.name,
-                    //temp: data.main.temp,
-                    //humidity: data.main.humidity,
-                    windDirection: this.setWindDirection(data.wind.deg),
-                    windSpeed: data.wind.speed
-                });
-            })
-
-        const SSE = new EventSource(`https://smpwl-server.herokuapp.com/SSE`);
-
-        SSE.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            this.updateWeather(data.weatherData);
-        };
-
-        this.setState({
-            SSE
-        });
-
-    }
-
-    updateWeather = ({temperature, humidity}) => {
-        this.setState({
-            ...this.state,
-            temperature,
-            humidity,
-            isLoaded: true
-        })
-    }
-
-    componentWillUnmount() {
-        const { SSE } = this.state;
-        if(SSE && SSE.readyState === 1){
-            SSE.close();
-        }
-    }
-
-    setWindDirection = (degree) => {
+    getWindDirection = (degree) => {
         let direction;
         if(degree === 0) {
             direction = 'N';
@@ -79,25 +26,24 @@ class General extends React.Component {
     }
 
     render() {
+        const { name, temperature, humidity, windSpeed, windDeg } = this.props.weatherData;
+
         return (
             <Wrapper>
                 <div>
-                    <Heading>{this.state.name}</Heading>
+                    <Heading>{name}</Heading>
                 </div>
                 <div>
-                    {!this.state.isLoaded &&
-                        <p>Wczytywanie danych...</p>
-                    }
-                    {this.state.isLoaded &&
+                    {this.props.weatherData.temperature === '' && <strong>Wczytywanie danych z serwera...</strong>}
+                    {this.props.weatherData.temperature !== '' &&
                         <>
-                        <p>Temperatura - <strong>{this.state.temperature}'C</strong></p>
-                        <p>Wilgotność - <strong>{this.state.humidity}%</strong></p>
-                        <p>Prędkość wiatru - <strong>{this.state.windSpeed} km/h</strong></p>
-                        <p>Kierunek wiatru - <strong>{this.state.windDirection}</strong></p>
-                        <p>CO2 - <strong>w normie</strong></p>
+                            <p>Temperatura - <strong>{temperature}'C</strong></p>
+                            <p>Wilgotność - <strong>{humidity}%</strong></p>
+                            <p>Prędkość wiatru - <strong>{windSpeed} km/h</strong></p>
+                            <p>Kierunek wiatru - <strong>{this.getWindDirection(windDeg)}</strong></p>
+                            <p>CO2 - <strong>w normie</strong></p>
                         </>
                     }
-
                 </div>
             </Wrapper>
         )

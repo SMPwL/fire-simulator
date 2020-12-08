@@ -3,47 +3,13 @@ import styled from "styled-components";
 
 class Alerts extends React.Component {
 
-    state = {
-        SSE: null,
-        alertMessage: []
-    }
-
-    componentDidMount() {
-        const SSE = new EventSource(`https://smpwl-server.herokuapp.com/SSE`);
-
-        SSE.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if(data.weatherData.hasOwnProperty('alertMessage')){
-                this.updateAlertMessage(data.weatherData.alertMessage);
-            }
-        };
-
-        this.setState({
-            SSE
-        });
-    }
-
-    componentWillUnmount() {
-        const { SSE } = this.state;
-        if(SSE && SSE.readyState === 1){
-            SSE.close();
-        }
-    }
-
-    updateAlertMessage = (alertMessage) => {
-        this.setState({
-            ...this.state,
-            alertMessage: [alertMessage]
-        })
-    }
-
     render() {
         return (
             <Wrapper>
                 <Heading>Komunikaty</Heading>
                 <Container>
-                    {this.state.alertMessage.length === 0 && <p>Brak komunikatów!</p> }
-                    {this.state.alertMessage.map((alertMessage, number) => (
+                    {this.props.alertMessage.length === 0 && <p>Brak komunikatów!</p> }
+                    {this.props.alertMessage.map((alertMessage, number) => (
                         <Box key={number}>
                             <AgentHeading>Alert RCB</AgentHeading>
                             <p>{alertMessage}</p>
