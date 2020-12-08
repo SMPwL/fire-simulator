@@ -42,12 +42,12 @@ class LastActivity extends React.Component {
                 <Container>
                     {this.state.agentCommunication.length === 0 && <p>Brak aktywności!</p> }
                     {this.state.agentCommunication.map(({message, date, agentId, type}, number) => (
-                        <div key={number}>
+                        <Box key={number}>
                             <AgentHeading>{type} {agentId}</AgentHeading>
                             <p>{message}</p>
                             <DateParagraph>{date.substr(0, 19).replace(/T/g, ' ')}</DateParagraph>
                             <hr/>
-                        </div>
+                        </Box>
                     ))}
                 </Container>
             </Wrapper>
@@ -81,6 +81,12 @@ const Container = styled.div`
 
 const DateParagraph = styled.p`
   font-size: 12px;
+`;
+
+const Box = styled.div`
+  :last-child hr {
+    display: none;
+  }
 `;
 
 export default LastActivity;

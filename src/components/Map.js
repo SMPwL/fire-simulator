@@ -3,6 +3,7 @@ import {
     Map,
     Polygon,
     TileLayer,
+    Circle
 } from 'react-leaflet';
 import styled from "styled-components";
 import 'leaflet/dist/leaflet.css';
@@ -70,7 +71,7 @@ class MapComponent extends React.Component {
         let { sensors } = this.state;
 
         data.map(({id, co2level}) => {
-            sensors[id] = getColor(co2level * 10)
+            return sensors[id] = getColor(co2level * 10)
         })
 
         this.setState({
@@ -94,6 +95,8 @@ class MapComponent extends React.Component {
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+                    <Circle center={{lat: "53.73740629082238", lng: "22.83537588283777"}} fillColor="blue" radius={320} />
+
                     {this.state.polygons.map((item, number) => (
                         <Polygon key={number} color={this.state.sensors[this.state.polygonIds[number]]} positions={item}
                                  onClick={() => this.handleClick(this.state.polygonIds[number])}/>
