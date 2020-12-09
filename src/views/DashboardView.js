@@ -72,8 +72,8 @@ class DashboardView extends React.Component {
                 </Row1>
                 <Row3>
                     <General weatherData={this.state.weatherData} />
-                    <Alerts alertMessage={this.state.weatherData.alertMessage} />
-                    <LastActivity filteredCommunication={this.state.filteredCommunication} />
+                    <Alerts alertMessage={this.state.weatherData.alertMessage.reverse()} />
+                    <LastActivity filteredCommunication={this.state.filteredCommunication.reverse()} />
                 </Row3>
             </Wrapper>
         );
