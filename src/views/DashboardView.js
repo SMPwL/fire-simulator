@@ -10,7 +10,7 @@ class DashboardView extends React.Component {
     state = {
         SSE: null,
         detectorsData: [],
-        agentCommunication: [],
+        filteredCommunication: [],
         weatherData: {
             alertMessage: [],
             temperature: "",
@@ -27,7 +27,7 @@ class DashboardView extends React.Component {
             const data = JSON.parse(event.data);
             this.setState({
                 detectorsData: data.detectorsData,
-                agentCommunication: data.agentCommunication,
+                filteredCommunication: data.filteredCommunication,
                 weatherData: {
                     ...this.state.weatherData,
                     temperature: data.weatherData.temperature,
@@ -73,7 +73,7 @@ class DashboardView extends React.Component {
                 <Row3>
                     <General weatherData={this.state.weatherData} />
                     <Alerts alertMessage={this.state.weatherData.alertMessage} />
-                    <LastActivity agentCommunication={this.state.agentCommunication} />
+                    <LastActivity filteredCommunication={this.state.filteredCommunication} />
                 </Row3>
             </Wrapper>
         );

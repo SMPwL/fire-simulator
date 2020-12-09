@@ -8,8 +8,8 @@ class LastActivity extends React.Component {
             <Wrapper>
                 <Heading>Aktywność agentów</Heading>
                 <Container>
-                    {this.props.agentCommunication.length === 0 && <p>Brak aktywności!</p> }
-                    {this.props.agentCommunication.map(({message, date, agentId, type}, number) => (
+                    {this.props.filteredCommunication.length === 0 && <p>Brak aktywności!</p> }
+                    {this.props.filteredCommunication.map(({message, date, agentId, type}, number) => (
                         <Box key={number}>
                             <AgentHeading>{type} {agentId}</AgentHeading>
                             <p>{message}</p>
