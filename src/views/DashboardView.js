@@ -93,7 +93,7 @@ const Row1 = styled.div`
 
 const Row3 = styled.div`
   display: grid;
-  grid-template-rows: 0.5fr 1fr 1fr;
+  grid-template-rows: 0.5fr 0.5fr 1fr;
   div {
     margin-bottom: 1rem;
     &:last-child {

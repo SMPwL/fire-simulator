@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 `;
 
 const Heading = styled.h1`
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
 `;
 
 const AgentHeading = styled.h4`
@@ -42,7 +42,7 @@ const AgentHeading = styled.h4`
 `;
 
 const Container = styled.div`
-  height: 20vh;
+  height: 32vh;
   overflow: auto;
   overflow-x: hidden;
 `;

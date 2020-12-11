@@ -11,8 +11,8 @@ class Alerts extends React.Component {
                     {this.props.alertMessage.length === 0 && <p>Brak komunikatów!</p> }
                     {this.props.alertMessage.map((alertMessage, number) => (
                         <Box key={number}>
-                            <AgentHeading>Alert RCB</AgentHeading>
-                            <p>{alertMessage}</p>
+                            <AgentHeading>Uwaga!</AgentHeading>
+                            <p><AlertIcon level={alertMessage}/>{alertMessage}</p>
                             <DateParagraph>{new Date().toISOString().substr(0, 19).replace(/T/g, ' ')}</DateParagraph>
                             <hr/>
                         </Box>
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 `;
 
 const Heading = styled.h1`
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 `;
 
 const AgentHeading = styled.h4`
@@ -42,7 +42,6 @@ const AgentHeading = styled.h4`
 `;
 
 const Container = styled.div`
-  height: 20vh;
   overflow: auto;
   overflow-x: hidden;
 `;
@@ -56,5 +55,14 @@ const Box = styled.div`
     display: none;
   }
 `;
+
+const AlertIcon = styled.div`
+    height: 15px;
+    width: 15px;
+    border-radius: 15px;
+    background-color: ${props => props.level == 'Niskie zagrożenie pożarowe' ? "orange" : "red"};
+    display: inline-block;
+    margin-right: 5px;
+    `
 
 export default Alerts;
