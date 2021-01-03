@@ -24,6 +24,7 @@ class Alerts extends React.Component {
 }
 
 const Wrapper = styled.div`
+  height: 25%;
   color: black;
   background: #d0d0d04a;
   text-align: center;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {Col, Container, OverlayTrigger, Row, Tooltip} from "react-bootstrap";
+import {Button, Col, Container, Form, OverlayTrigger, Row, Tooltip} from "react-bootstrap";
 import {WiThermometer, WiHumidity, WiStrongWind, WiSmallCraftAdvisory} from "react-icons/wi";
 import {BiLoaderAlt} from "react-icons/bi";
 import {RiCelsiusLine} from "react-icons/ri";
@@ -36,8 +36,44 @@ class General extends React.Component {
         return direction;
     }
 
+    sendWeather = (event) => {
+        event.preventDefault();
+        const temperature = event.target[0].value;
+        const humidity = event.target[1].value;
+        const windSpeed = event.target[2].value;
+        const windDeg = event.target[3].value;
+
+        for(let i = 0; i < 3; i++){
+            event.target[i].placeholder=event.target[i].value;
+            event.target[i].value="";
+        }
+
+
+
+        fetch('https://smpwl-server.herokuapp.com/weather ', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                temperature: temperature,
+                humidity: humidity,
+                direction: windDeg,
+                windSpeed: windSpeed,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
     render() {
         const {name, temperature, humidity, windSpeed, windDeg} = this.props.weatherData;
+        const wind = this.getWindDirection(windDeg);
 
         return (
             <Wrapper>
@@ -49,65 +85,65 @@ class General extends React.Component {
                     <strong><Loader/> Wczytywanie danych z
                         serwera...</strong>}
                     {this.props.weatherData.temperature !== '' &&
-                    // <>
-                    //     <p>Temperatura - <strong>{temperature}'C</strong></p>
-                    //     <p>Wilgotność - <strong>{humidity}%</strong></p>
-                    //     <p>Prędkość wiatru - <strong>{windSpeed} km/h</strong></p>
-                    //     <p>Kierunek wiatru - <strong>{this.getWindDirection(windDeg)}</strong></p>
-                    //     <p>CO2 - <strong>w normie</strong></p>
-                    // </>
                     <Container fluid>
-                        <Row style={{marginBottom: 0}}>
-                            <Col md={4}>
-                                <OverlayTrigger
-                                    placement="top"
-                                    delay={{show: 150, hide: 250}}
-                                    overlay={renderTooltip('Temperatura')}
-                                >
-                                    <p><WiThermometer size={'2rem'}/> <strong>{temperature} <RiCelsiusLine/></strong></p>
-                                </OverlayTrigger>
-                            </Col>
-                            <Col md={4}>
-                                <OverlayTrigger
-                                    placement="top"
-                                    delay={{show: 150, hide: 250}}
-                                    overlay={renderTooltip('Wilgotność')}
-                                >
-                                    <p><WiHumidity size={'2.5rem'}/> <strong>{humidity}%</strong></p>
-                                </OverlayTrigger>
-                            </Col>
-                            <Col md={4}>
-                                <OverlayTrigger
-                                    placement="top"
-                                    delay={{show: 150, hide: 250}}
-                                    overlay={renderTooltip('Prędkość wiatru')}
-                                >
-                                    <p><WiStrongWind size={'2.5rem'}/> <strong>{windSpeed} km/h</strong></p>
-                                </OverlayTrigger>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={4}>
-                                <OverlayTrigger
-                                    placement="top"
-                                    delay={{show: 150, hide: 250}}
-                                    overlay={renderTooltip('Kierunek wiatru')}
-                                >
-                                    <p><WiSmallCraftAdvisory size={'2.5rem'}/>
-                                        <strong>{this.getWindDirection(windDeg)}</strong></p>
-                                </OverlayTrigger>
-                            </Col>
-                            <Col md={4}>
-                                <OverlayTrigger
-                                    placement="top"
-                                    delay={{show: 150, hide: 250}}
-                                    overlay={renderTooltip('Poziom CO2')}
-                                >
-                                    <p>CO<sub>2</sub> - <strong>w normie</strong></p>
-                                </OverlayTrigger>
-                            </Col>
-                            <Col></Col>
-                        </Row>
+                        <Form onSubmit={this.sendWeather}>
+                            <Row className={'text-left'}>
+                                <Col md={6}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{show: 150, hide: 250}}
+                                        overlay={renderTooltip('Temperatura')}
+                                    >
+                                        <p><WiThermometer size={'2.5rem'}/><strong><Form.Control
+                                            className={'w-50 d-inline-block'} type="number" placeholder={temperature}
+                                            required/>
+                                            <RiCelsiusLine/></strong></p>
+                                    </OverlayTrigger>
+                                </Col>
+                                <Col md={6}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{show: 150, hide: 250}}
+                                        overlay={renderTooltip('Wilgotność')}
+                                    >
+                                        <p><WiHumidity size={'2.5rem'}/> <strong><Form.Control
+                                            className={'w-50 d-inline-block'} type="number" placeholder={humidity}
+                                            required/> %</strong></p>
+                                    </OverlayTrigger>
+                                </Col>
+                                <Col md={6}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{show: 150, hide: 250}}
+                                        overlay={renderTooltip('Prędkość wiatru')}
+                                    >
+                                        <p><WiStrongWind size={'2.5rem'}/> <strong><Form.Control
+                                            className={'w-50 d-inline-block'} type="number" placeholder={windSpeed} min={0}
+                                            required/> km/h</strong></p>
+                                    </OverlayTrigger>
+                                </Col>
+                                <Col md={6}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{show: 150, hide: 250}}
+                                        overlay={renderTooltip('Kierunek wiatru')}
+                                    >
+                                        <p><WiSmallCraftAdvisory size={'2.5rem'}/>
+                                            <Form.Control as="select" className={'w-50 d-inline-block'} required>
+                                                <option selected={wind === 'N' && 'selected'}>N</option>
+                                                <option selected={wind === 'NE' && 'selected'}>NE</option>
+                                                <option selected={wind === 'E' && 'selected'}>E</option>
+                                                <option selected={wind === 'SE' && 'selected'}>SE</option>
+                                                <option selected={wind === 'S' && 'selected'}>S</option>
+                                                <option selected={wind === 'SW' && 'selected'}>SW</option>
+                                                <option selected={wind === 'W' && 'selected'}>W</option>
+                                                <option selected={wind === 'NW' && 'selected'}>NW</option>
+                                            </Form.Control></p>
+                                    </OverlayTrigger>
+                                </Col>
+                            </Row>
+                            <Button variant="success" size={'lg'} className={"w-50"} type={'submit'}>Zatwierdź</Button>
+                        </Form>
                     </Container>
                     }
                 </Container>
@@ -117,6 +153,7 @@ class General extends React.Component {
 }
 
 const Wrapper = styled.div`
+  height: 30%;
   color: black;
   background: #d0d0d04a;
   text-align: center;

@@ -1,8 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import {routes} from "../routes/Routes";
+import {Button} from "react-bootstrap";
+import {IoReloadSharp} from "react-icons/io5";
 
 class Nav extends React.Component {
+
+    handleRestart = () =>{
+        fetch(`https://smpwl-server.herokuapp.com/reset`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then();
+    }
+
     render() {
         return (
             <Wrapper>
@@ -15,17 +27,18 @@ class Nav extends React.Component {
                     </Item>
                 </List>
                 <List>
-                    <Item>SMPwK</Item>
+                    <Button variant="danger" size={'lg'} style={{margin: '7px 10px'}} onClick={this.handleRestart}><IoReloadSharp/> Restart</Button>
                 </List>
             </Wrapper>
         )
     }
 }
 
+
+
 const Wrapper = styled.div`
   color: #eee;
   background: #24292e;
-  padding: 1.5rem 1rem;
   display: flex;
   justify-content: space-between;
 `;
@@ -39,6 +52,7 @@ const List = styled.ul`
 
 const Item = styled.li`
   margin-right: 1.5rem;
+  padding: 1.5rem 1rem;
   &:last-child {
     margin-right: 0;
   }
@@ -47,7 +61,7 @@ const Item = styled.li`
 const Link = styled.a`
   color: #eee;
   text-decoration: none;
-  padding: 14px 16px;
+  padding: 1.5rem 1rem;
   &:hover {
     color: #eee;
     background-color: #111;

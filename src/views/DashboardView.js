@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import General from "../components/Dashboard/General";
 import Alerts from "../components/Dashboard/Alerts";
 import LastActivity from "../components/Dashboard/LastActivity";
+import {Col, Container, Row} from "react-bootstrap";
 
 class DashboardView extends React.Component {
 
@@ -32,6 +33,8 @@ class DashboardView extends React.Component {
                     ...this.state.weatherData,
                     temperature: data.weatherData.temperature,
                     humidity: data.weatherData.humidity,
+                    // windDeg: data.weatherData.windDeg,
+                    // windSpeed: data.weatherData.windSpeed,
                     alertMessage: data.weatherData.hasOwnProperty('alertMessage') ? [ data.weatherData.alertMessage ] : []
                 }
             })
@@ -66,34 +69,26 @@ class DashboardView extends React.Component {
 
     render() {
         return (
-            <Wrapper>
-                <Row1>
-                    <Map detectorsData={this.state.detectorsData} />
-                </Row1>
-                <Row3>
-                    <General weatherData={this.state.weatherData} />
-                    <Alerts alertMessage={this.state.weatherData.alertMessage.reverse()} />
-                    <LastActivity filteredCommunication={this.state.filteredCommunication.reverse()} />
-                </Row3>
-            </Wrapper>
+            <Container fluid>
+                <Row>
+                    <Col md={"8"}>
+                        <div>
+                            <Map detectorsData={this.state.detectorsData} />
+                        </div>
+                    </Col>
+                    <Col md={"4"}>
+                        <Dashboard style={{height: '80vh'}}>
+                            <General weatherData={this.state.weatherData} />
+                            <Alerts alertMessage={this.state.weatherData.alertMessage.reverse()} />
+                            <LastActivity filteredCommunication={this.state.filteredCommunication.reverse()}/>
+                        </Dashboard>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-gap: 1rem;
-  margin: 1rem 0;
-`;
-
-const Row1 = styled.div`
-
-`;
-
-const Row3 = styled.div`
-  display: grid;
-  grid-template-rows: 0.5fr 0.5fr 1fr;
+const Dashboard = styled.div`
   div {
     margin-bottom: 1rem;
     &:last-child {

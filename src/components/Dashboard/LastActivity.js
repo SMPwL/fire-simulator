@@ -24,6 +24,7 @@ class LastActivity extends React.Component {
 }
 
 const Wrapper = styled.div`
+  height: 55%;
   color: black;
   background: #d0d0d04a;
   text-align: center;
@@ -42,7 +43,8 @@ const AgentHeading = styled.h4`
 `;
 
 const Container = styled.div`
-  height: 32vh;
+  // margin-top: 70px;
+  height: 30vh;
   overflow: auto;
   overflow-x: hidden;
 `;
