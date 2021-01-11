@@ -24,7 +24,7 @@ class LastActivity extends React.Component {
 }
 
 const Wrapper = styled.div`
-  height: 55%;
+  height: 54%;
   color: black;
   background: #d0d0d04a;
   text-align: center;

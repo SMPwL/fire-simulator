@@ -35,6 +35,7 @@ class DashboardView extends React.Component {
                     humidity: data.weatherData.humidity,
                     // windDeg: data.weatherData.windDeg,
                     // windSpeed: data.weatherData.windSpeed,
+                    rain: data.weatherData.rain,
                     alertMessage: data.weatherData.hasOwnProperty('alertMessage') ? [ data.weatherData.alertMessage ] : []
                 }
             })
