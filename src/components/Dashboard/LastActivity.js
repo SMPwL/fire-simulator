@@ -12,7 +12,7 @@ class LastActivity extends React.Component {
                     {this.props.filteredCommunication.map(({message, date, agentId, type}, number) => (
                         <Box key={number}>
                             <AgentHeading>{type} {agentId}</AgentHeading>
-                            <p>{message}</p>
+                            <p style={{fontSize: '14px'}}>{message}</p>
                             <DateParagraph>{date.substr(0, 19).replace(/T/g, ' ')}</DateParagraph>
                             <hr/>
                         </Box>
@@ -24,14 +24,14 @@ class LastActivity extends React.Component {
 }
 
 const Wrapper = styled.div`
-  height: 54%;
+  height: 60%;
   color: black;
   background: #d0d0d04a;
   text-align: center;
   padding: 1rem;
   display: grid;
   justify-items: center;
-  align-items: center;
+  // align-items: center;
 `;
 
 const Heading = styled.h1`
@@ -43,8 +43,8 @@ const AgentHeading = styled.h4`
 `;
 
 const Container = styled.div`
-  // margin-top: 70px;
-  height: 30vh;
+  margin-top: 35px;
+  height: 80%;
   overflow: auto;
   overflow-x: hidden;
 `;
