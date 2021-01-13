@@ -26,28 +26,6 @@ class General extends React.Component {
         this.setState({modal: !this.state.modal})
     }
 
-    getWindDirection = (degree) => {
-        let direction;
-        if (degree === 0) {
-            direction = 'N';
-        } else if (degree === 90) {
-            direction = 'E';
-        } else if (degree === 180) {
-            direction = 'S';
-        } else if (degree === 270) {
-            direction = 'W';
-        } else if (degree => 0 && degree <= 90) {
-            direction = 'NE';
-        } else if (degree => 90 && degree <= 180) {
-            direction = 'SE';
-        } else if (degree => 180 && degree <= 270) {
-            direction = 'SW';
-        } else {
-            direction = 'NW';
-        }
-        return direction;
-    }
-
     sendWeather = (event) => {
         event.preventDefault();
         const temperature = event.target[0].value;
@@ -89,8 +67,7 @@ class General extends React.Component {
     }
 
     render() {
-        const {name, temperature, humidity, windSpeed, windDeg, rain} = this.props.weatherData;
-        const wind = this.getWindDirection(windDeg);
+        const {temperature, humidity, windSpeed, rain, direction} = this.props.weatherData;
 
         return (
             <Wrapper>
@@ -169,14 +146,14 @@ class General extends React.Component {
                                                   style={{width: '100px'}}
                                                   className={'d-inline-block m-1'}
                                                   required>
-                                        <option selected={wind === 'N' && 'selected'}>N</option>
-                                        <option selected={wind === 'NE' && 'selected'}>NE</option>
-                                        <option selected={wind === 'E' && 'selected'}>E</option>
-                                        <option selected={wind === 'SE' && 'selected'}>SE</option>
-                                        <option selected={wind === 'S' && 'selected'}>S</option>
-                                        <option selected={wind === 'SW' && 'selected'}>SW</option>
-                                        <option selected={wind === 'W' && 'selected'}>W</option>
-                                        <option selected={wind === 'NW' && 'selected'}>NW</option>
+                                        <option selected={direction === 'N' && 'selected'}>N</option>
+                                        <option selected={direction === 'NE' && 'selected'}>NE</option>
+                                        <option selected={direction === 'E' && 'selected'}>E</option>
+                                        <option selected={direction === 'SE' && 'selected'}>SE</option>
+                                        <option selected={direction === 'S' && 'selected'}>S</option>
+                                        <option selected={direction === 'SW' && 'selected'}>SW</option>
+                                        <option selected={direction === 'W' && 'selected'}>W</option>
+                                        <option selected={direction === 'NW' && 'selected'}>NW</option>
                                     </Form.Control>
                                 </Col>
                                 <Col sm={{span: 5, offset: 1}}>
@@ -211,7 +188,7 @@ class General extends React.Component {
                 <EditButton variant="success" size="lg" onClick={this.modalToggle}><AiOutlineEdit/> Edytuj</EditButton>
                 }
                 <div>
-                    <Heading>{name}</Heading>
+                    <Heading>Kroszówka</Heading>
                 </div>
                 <Container>
                     {this.props.weatherData.temperature === '' &&
@@ -263,7 +240,7 @@ class General extends React.Component {
                                 overlay={renderTooltip('Kierunek wiatru')}
                             >
                                 <span>
-                                    {wind}
+                                    {direction}
                                 </span>
                             </OverlayTrigger>
                         </Col>

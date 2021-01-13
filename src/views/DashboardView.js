@@ -33,8 +33,8 @@ class DashboardView extends React.Component {
                     ...this.state.weatherData,
                     temperature: data.weatherData.temperature,
                     humidity: data.weatherData.humidity,
-                    // windDeg: data.weatherData.windDeg,
-                    // windSpeed: data.weatherData.windSpeed,
+                    direction: data.weatherData.direction,
+                    windSpeed: data.weatherData.windSpeed,
                     rain: data.weatherData.rain,
                     alertMessage: data.weatherData.hasOwnProperty('alertMessage') ? [ data.weatherData.alertMessage ] : []
                 }
@@ -45,19 +45,19 @@ class DashboardView extends React.Component {
             SSE
         });
 
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=krosz%C3%B3wka&appid=234c8686150141d829255637d1ac0d46&units=metric`)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    ...this.state,
-                    weatherData: {
-                        ...this.state.weatherData,
-                        name: data.name,
-                        windDeg: data.wind.deg,
-                        windSpeed: data.wind.speed
-                    }
-                });
-            })
+        // fetch(`https://api.openweathermap.org/data/2.5/weather?q=krosz%C3%B3wka&appid=234c8686150141d829255637d1ac0d46&units=metric`)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         this.setState({
+        //             ...this.state,
+        //             weatherData: {
+        //                 ...this.state.weatherData,
+        //                 name: data.name,
+        //                 windDeg: data.wind.deg,
+        //                 windSpeed: data.wind.speed
+        //             }
+        //         });
+        //     })
 
     }
 
