@@ -9,7 +9,7 @@ class LastActivity extends React.Component {
                 <Heading>Aktywność agentów</Heading>
                 <Container>
                     {this.props.filteredCommunication.length === 0 && <p>Brak aktywności!</p>}
-                    {this.props.filteredCommunication.reverse().map(({message, date, agentId, type}, number) => (
+                    {this.props.filteredCommunication.map(({message, date, agentId, type}, number) => (
                         <Box key={number}>
                             <TitleWrapper>
                                 <div><AgentHeading><AlertIcon  type={type}/>{type} {agentId}</AgentHeading></div>
