@@ -204,7 +204,7 @@ class General extends React.Component {
                                 overlay={renderTooltip('Temperatura')}
                             >
                                 <span>
-                                   {temperature} <RiCelsiusLine className={'d-inline-block'}/>
+                                   {temperature} <RiCelsiusLine size={'16px'} className={'d-inline-block'} style={{marginTop: "-3px"}}/>
                                 </span>
                             </OverlayTrigger>
                         </Col>
